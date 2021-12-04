@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable import/prefer-default-export */
 // import { validSongSchema } from '../schemas/songSchemas.js';
 import { validSongSchema } from '../schemas/songSchemas.js';
@@ -23,7 +24,6 @@ export async function postRecommendationSong(req, res) {
 
     return res.status(200).send({ message: 'Recomendação inseria com sucesso' });
   } catch (err) {
-    console.log(err);
     return res.sendStatus(500);
   }
 }
