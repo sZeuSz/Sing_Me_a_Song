@@ -8,5 +8,5 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/recommendations', songControllers.postRecommendationSong);
-
+app.post('/recommendations/:id/upvote', songControllers.postUpVoteRecommendationSong);
 export default app;

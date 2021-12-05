@@ -27,3 +27,19 @@ export async function postRecommendationSong(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function postUpVoteRecommendationSong(req, res) {
+  const { id } = req.params;
+
+  if (!Number(id)) {
+    return res.status(400).send({ message: 'O parametro passsado precisa ser um inteiro' });
+  }
+
+  const voted = await songService.upVoteRecommendationSong(id);
+
+  if (!voted) {
+    return res.status(404).send({ message: 'Recomendação não encontrada' });
+  }
+
+  return res.status(200).send({ message: 'Votou com sucesso' });
+}
