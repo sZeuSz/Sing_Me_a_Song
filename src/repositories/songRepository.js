@@ -47,19 +47,19 @@ export async function getBetweenRecommendation() {
 }
 
 export async function getRecommendationsRandomlyAbove() {
-  const result = await connection.query('SELECT * FROM songs WHERE score > 10 ORDER BY random() LIMIT 1');
+  const result = await connection.query('SELECT id, name, youtube_link AS "youtubeLink", score FROM songs WHERE score > 10 ORDER BY random() LIMIT 1');
 
   return result.rows;
 }
 
 export async function getRecommendationRandomlyBetween() {
-  const result = await connection.query('SELECT * FROM songs WHERE score >= -5 AND score <= 10 ORDER BY random() LIMIT 1');
+  const result = await connection.query('SELECT id, name, youtube_link AS "youtubeLink", score FROM songs WHERE score >= -5 AND score <= 10 ORDER BY random() LIMIT 1');
 
   return result.rows;
 }
 
 export async function getRecommendationRandomly() {
-  const result = await connection.query('SELECT * FROM songs ORDER BY random() LIMIT 1');
+  const result = await connection.query('SELECT id, name, youtube_link AS "youtubeLink", score FROM songs ORDER BY random() LIMIT 1');
 
   return result.rows;
 }
