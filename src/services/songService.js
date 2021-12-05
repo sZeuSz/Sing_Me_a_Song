@@ -6,8 +6,26 @@ export async function insertRecommendation(name, youtubeLink) {
   await songRepository.insertRecommendation(name, youtubeLink);
 }
 
-export async function upVoteRecommendationSong(id) {
-  const result = await songRepository.upVoteRecommendationSong(id);
+export async function upVoteRecommendationSongById(id) {
+  const result = await songRepository.upVoteRecommendationSongById(id);
+
+  return Boolean(result);
+}
+
+export async function downVoteRecommendationSongById(id) {
+  const score = await songRepository.getScoreById(id);
+
+  if (!score) {
+    return null;
+  }
+
+  if (score.score <= -4) {
+    await songRepository.deleteRecommendationSongByID(id);
+
+    return true;
+  }
+
+  const result = await songRepository.downVoteRecommendationSongById(id);
 
   return Boolean(result);
 }
