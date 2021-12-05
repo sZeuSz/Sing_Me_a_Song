@@ -54,3 +54,9 @@ export async function getRecommendationRandomly() {
 
   return result;
 }
+
+export async function recommendationTop(amount) {
+  const result = await songRepository.getRecommendationTop(amount);
+
+  return result;
+}

@@ -35,13 +35,17 @@ export async function postUpVoteRecommendationSongById(req, res) {
     return res.status(400).send({ message: 'O parametro passsado precisa ser um inteiro' });
   }
 
-  const voted = await songService.upVoteRecommendationSongById(id);
+  try {
+    const voted = await songService.upVoteRecommendationSongById(id);
 
-  if (!voted) {
-    return res.status(404).send({ message: 'Recomendação não encontrada' });
+    if (!voted) {
+      return res.status(404).send({ message: 'Recomendação não encontrada' });
+    }
+
+    return res.status(200).send({ message: 'Votou com sucesso' });
+  } catch (error) {
+    return res.sendStatus(500);
   }
-
-  return res.status(200).send({ message: 'Votou com sucesso' });
 }
 
 export async function postDownVoteRecommendationSongById(req, res) {
@@ -51,23 +55,50 @@ export async function postDownVoteRecommendationSongById(req, res) {
     return res.status(400).send({ message: 'O parametro passsado precisa ser um inteiro' });
   }
 
-  const voted = await songService.downVoteRecommendationSongById(id);
+  try {
+    const voted = await songService.downVoteRecommendationSongById(id);
 
-  if (!voted) {
-    return res.status(404).send({ message: 'Recomendação não encontrada' });
+    if (!voted) {
+      return res.status(404).send({ message: 'Recomendação não encontrada' });
+    }
+
+    return res.status(200).send({ message: 'Votou com sucesso' });
+  } catch (error) {
+    return res.sendStatus(500);
   }
-
-  return res.status(200).send({ message: 'Votou com sucesso' });
 }
 
 export async function getRecommendationRandom(req, res) {
-  const existMusic = await songService.getRecommendationsAmount();
+  try {
+    const existMusic = await songService.getRecommendationsAmount();
 
-  if (!existMusic) {
-    return res.status(404).send({ message: 'Desculpe, não há nenhuma recomendação cadastrada no momento' });
+    if (!existMusic) {
+      return res.status(404).send({ message: 'Desculpe, não há nenhuma recomendação cadastrada no momento' });
+    }
+
+    const song = await songService.getRecommendationRandomly();
+
+    return res.status(200).send(song);
+  } catch (error) {
+    return res.sendStatus(500);
+  }
+}
+
+export async function getRecommendationTop(req, res) {
+  const { amount } = req.params;
+
+  if (!amount) {
+    return res.status(404).send({ message: 'A quantidade tem que ser positiva e definida' });
   }
 
-  const song = await songService.getRecommendationRandomly();
+  try {
+    const songs = await songService.recommendationTop(amount);
 
-  return res.status(200).send(song);
+    if (!songs.length) {
+      return res.status(404).send({ message: 'Desculpe, não há nenhuma recomendação cadastrada no momento' });
+    }
+    return res.status(200).send(songs);
+  } catch (error) {
+    return res.sendStatus(500);
+  }
 }

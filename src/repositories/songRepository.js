@@ -63,3 +63,9 @@ export async function getRecommendationRandomly() {
 
   return result.rows;
 }
+
+export async function getRecommendationTop(amount) {
+  const result = await connection.query('SELECT id, name, youtube_link AS "youtubeLink", score FROM songs ORDER BY score DESC LIMIT $1', [amount]);
+
+  return result.rows;
+}
