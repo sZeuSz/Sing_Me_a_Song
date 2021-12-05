@@ -19,7 +19,7 @@ export async function downVoteRecommendationSongById(id) {
     return null;
   }
 
-  if (score.score <= -4) {
+  if (score.score < -5) {
     await songRepository.deleteRecommendationSongByID(id);
 
     return true;
@@ -28,4 +28,29 @@ export async function downVoteRecommendationSongById(id) {
   const result = await songRepository.downVoteRecommendationSongById(id);
 
   return Boolean(result);
+}
+
+export async function getRecommendationsAmount() {
+  const result = await songRepository.getRecommendationsAmount();
+
+  return result;
+}
+
+export async function getRecommendationRandomly() {
+  const above = await songRepository.getAboveRecommendation();
+  const between = await songRepository.getBetweenRecommendation();
+
+  let result;
+
+  if ((above && !between) || (!above && between)) {
+    result = await songRepository.getRecommendationRandomly();
+  } else if (!above && !between) {
+    return null;
+  } else if (Math.random() <= 0.70) {
+    result = await songRepository.getRecommendationsRandomlyAbove();
+  } else {
+    result = await songRepository.getRecommendationRandomlyBetween();
+  }
+
+  return result;
 }

@@ -59,3 +59,15 @@ export async function postDownVoteRecommendationSongById(req, res) {
 
   return res.status(200).send({ message: 'Votou com sucesso' });
 }
+
+export async function getRecommendationRandom(req, res) {
+  const existMusic = await songService.getRecommendationsAmount();
+
+  if (!existMusic) {
+    return res.status(404).send({ message: 'Desculpe, não há nenhuma recomendação cadastrada no momento' });
+  }
+
+  const song = await songService.getRecommendationRandomly();
+
+  return res.status(200).send(song);
+}

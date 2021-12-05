@@ -27,3 +27,39 @@ export async function deleteRecommendationSongByID(id) {
 
   return result.rows;
 }
+
+export async function getRecommendationsAmount() {
+  const result = await connection.query('SELECT * FROM songs');
+
+  return result.rowCount;
+}
+
+export async function getAboveRecommendation() {
+  const result = await connection.query('SELECT * FROM songs WHERE score > 10');
+
+  return result.rowCount;
+}
+
+export async function getBetweenRecommendation() {
+  const result = await connection.query('SELECT * FROM songs WHERE score >= -5 AND score <= 10');
+
+  return result.rowCount;
+}
+
+export async function getRecommendationsRandomlyAbove() {
+  const result = await connection.query('SELECT * FROM songs WHERE score > 10 ORDER BY random() LIMIT 1');
+
+  return result.rows;
+}
+
+export async function getRecommendationRandomlyBetween() {
+  const result = await connection.query('SELECT * FROM songs WHERE score >= -5 AND score <= 10 ORDER BY random() LIMIT 1');
+
+  return result.rows;
+}
+
+export async function getRecommendationRandomly() {
+  const result = await connection.query('SELECT * FROM songs ORDER BY random() LIMIT 1');
+
+  return result.rows;
+}
