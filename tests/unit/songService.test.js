@@ -126,7 +126,7 @@ describe('GET /recommendations/random', () => {
 
     expect(result).toBe(null);
   });
-  it('get a random recommendationsn by percentage until 70%', async () => {
+  it('get a random recommendations by percentage until 70%', async () => {
     jest.spyOn(global.Math, 'random').mockImplementationOnce(() => 0.7);
     jest.spyOn(songRepository, 'getAboveRecommendation').mockImplementationOnce(() => true);
     jest.spyOn(songRepository, 'getBetweenRecommendation').mockImplementationOnce(() => true);
@@ -150,7 +150,7 @@ describe('GET /recommendations/random', () => {
     ]);
   });
 
-  it('get a random recommendationsn by percentage until 69%', async () => {
+  it('get a random recommendations by percentage until 69%', async () => {
     jest.spyOn(global.Math, 'random').mockImplementationOnce(() => 0.69);
     jest.spyOn(songRepository, 'getAboveRecommendation').mockImplementationOnce(() => true);
     jest.spyOn(songRepository, 'getBetweenRecommendation').mockImplementationOnce(() => true);
@@ -174,7 +174,7 @@ describe('GET /recommendations/random', () => {
     ]);
   });
 
-  it('get a random recommendationsn by percentage until 71%', async () => {
+  it('get a random recommendations by percentage until 71%', async () => {
     jest.spyOn(global.Math, 'random').mockImplementationOnce(() => 0.71);
     jest.spyOn(songRepository, 'getAboveRecommendation').mockImplementationOnce(() => true);
     jest.spyOn(songRepository, 'getBetweenRecommendation').mockImplementationOnce(() => true);
@@ -200,5 +200,37 @@ describe('GET /recommendations/random', () => {
 });
 
 describe('GET /recommendatons/top/:amount', () => {
+  it('list recommendations by limit parameter (amount)', async () => {
+    jest.spyOn(songRepository, 'getRecommendationTop').mockImplementationOnce(() => [
 
+      {
+        id: 2,
+        name: 'Juninho - rei delas acustico',
+        youtubeLink: 'www.youtube.com/reidelasJacustico',
+        score: 12,
+      },
+      {
+        id: 4,
+        name: 'Juninho - é por isso que eu programo',
+        youtubeLink: 'www.youtube.com/juninProgamoPorIsso',
+        score: 44,
+      },
+    ]);
+    const result = await songService.recommendationTop(2);
+    expect(result).toEqual([
+
+      {
+        id: 2,
+        name: 'Juninho - rei delas acustico',
+        youtubeLink: 'www.youtube.com/reidelasJacustico',
+        score: 12,
+      },
+      {
+        id: 4,
+        name: 'Juninho - é por isso que eu programo',
+        youtubeLink: 'www.youtube.com/juninProgamoPorIsso',
+        score: 44,
+      },
+    ]);
+  });
 });

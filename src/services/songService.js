@@ -40,13 +40,11 @@ export async function getRecommendationRandomly() {
   const between = await songRepository.getBetweenRecommendation();
 
   let result;
-  console.log(above, between);
   if ((above && !between) || (!above && between)) {
     result = await songRepository.getRecommendationRandomly();
   } else if (!above && !between) {
     return null;
   } else if (Math.random() <= 0.70) {
-    console.log('aquuiiii');
     result = await songRepository.getRecommendationsRandomlyAbove();
   } else {
     result = await songRepository.getRecommendationRandomlyBetween();
