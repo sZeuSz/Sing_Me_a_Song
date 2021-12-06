@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
+/* istanbul ignore else */
 import * as songRepository from '../../src/repositories/songRepository.js';
 import * as songService from '../../src/services/songService.js';
 
