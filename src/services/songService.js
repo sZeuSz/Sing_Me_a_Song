@@ -14,16 +14,16 @@ export async function upVoteRecommendationSongById(id) {
 
 export async function downVoteRecommendationSongById(id) {
   const score = await songRepository.getScoreById(id);
-  if (!Math.abs(score)) {
+  if (!score) {
     return null;
   }
 
   const result = await songRepository.downVoteRecommendationSongById(id);
 
-  if ((await songRepository.getScoreById(id)).score < -5) {
-    await songRepository.deleteRecommendationSongByID(id);
+  if ((await songRepository.getScoreById(id))?.score < -5) {
+    const overleaf = await songRepository.deleteRecommendationSongByID(id);
 
-    return true;
+    return overleaf;
   }
 
   return Boolean(result);

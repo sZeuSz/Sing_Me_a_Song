@@ -35,8 +35,8 @@ describe('POST /recommendations/:id/upvot', () => {
 describe('POST /recommendations/:id/downvote', () => {
   it('Down vote in song recommendations sucess', async () => {
     jest.spyOn(songRepository, 'getScoreById').mockImplementationOnce(() => -4);
-    jest.spyOn(songRepository, 'downVoteRecommendationSongById').mockImplementationOnce(() => 1);
-    jest.spyOn(songRepository, 'deleteRecommendationSongByID').mockImplementationOnce(() => true);
+    jest.spyOn(songRepository, 'downVoteRecommendationSongById').mockImplementationOnce((id) => 1);
+    jest.spyOn(songRepository, 'deleteRecommendationSongByID').mockImplementationOnce((id) => 1);
 
     const result = await songService.downVoteRecommendationSongById(1);
 
@@ -44,8 +44,9 @@ describe('POST /recommendations/:id/downvote', () => {
   });
 
   it('Down vote in song recommendations failed because id not exist', async () => {
+    jest.spyOn(songRepository, 'getScoreById').mockImplementationOnce(() => null);
     jest.spyOn(songRepository, 'downVoteRecommendationSongById').mockImplementationOnce(() => false);
-
+    jest.spyOn(songRepository, 'deleteRecommendationSongByID').mockImplementationOnce(() => 1);
     const result = Boolean(await songService.downVoteRecommendationSongById(99999999));
 
     expect(result).toBe(false);
@@ -53,8 +54,8 @@ describe('POST /recommendations/:id/downvote', () => {
 
   it('Down vote in song recommendations sucess when score greater -5', async () => {
     jest.spyOn(songRepository, 'getScoreById').mockImplementationOnce(() => -4);
-    jest.spyOn(songRepository, 'deleteRecommendationSongByID').mockImplementationOnce(() => 1);
-    jest.spyOn(songRepository, 'downVoteRecommendationSongById').mockImplementationOnce(() => 1);
+    jest.spyOn(songRepository, 'deleteRecommendationSongByID').mockImplementationOnce(() => true);
+    jest.spyOn(songRepository, 'downVoteRecommendationSongById').mockImplementationOnce(() => true);
 
     const result = await songService.downVoteRecommendationSongById(1);
     expect(result).toBe(false);
@@ -201,6 +202,7 @@ describe('GET /recommendations/random', () => {
 
 describe('GET /recommendatons/top/:amount', () => {
   it('list recommendations by limit parameter (amount)', async () => {
+    jest.spyOn(songRepository, 'getRecommendationsAmount').mockImplementationOnce(() => 333);
     jest.spyOn(songRepository, 'getRecommendationTop').mockImplementationOnce(() => [
 
       {
