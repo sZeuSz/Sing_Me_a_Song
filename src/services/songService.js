@@ -20,7 +20,7 @@ export async function downVoteRecommendationSongById(id) {
 
   const result = await songRepository.downVoteRecommendationSongById(id);
 
-  if ((await songRepository.getScoreById(id)).score < -5) {
+  if ((await songRepository.getScoreById(id))?.score < -5) {
     await songRepository.deleteRecommendationSongByID(id);
 
     return true;
@@ -44,7 +44,7 @@ export async function getRecommendationRandomly() {
     result = await songRepository.getRecommendationRandomly();
   } else if (!above && !between) {
     return null;
-  } else if (Math.random() <= 0.70) {
+  } else if (Math.random() <= 0.7) {
     result = await songRepository.getRecommendationsRandomlyAbove();
   } else {
     result = await songRepository.getRecommendationRandomlyBetween();
