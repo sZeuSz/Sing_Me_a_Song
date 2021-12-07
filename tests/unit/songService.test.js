@@ -275,6 +275,7 @@ describe('GET /recommendations/random', () => {
 
 describe('GET /recommendatons/top/:amount', () => {
   it('list recommendations by limit parameter (amount)', async () => {
+    jest.spyOn(songRepository, 'getRecommendationsAmount').mockImplementationOnce(() => 333);
     jest.spyOn(songRepository, 'getRecommendationTop').mockImplementationOnce(() => [
 
       {

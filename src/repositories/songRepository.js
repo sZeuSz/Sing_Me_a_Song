@@ -25,7 +25,7 @@ export async function downVoteRecommendationSongById(id) {
 export async function deleteRecommendationSongByID(id) {
   const result = await connection.query('DELETE FROM songs WHERE id = $1 RETURNING id', [id]);
 
-  return result.rows;
+  return result.rowCount;
 }
 
 export async function getRecommendationsAmount() {

@@ -15,7 +15,7 @@ export async function upVoteRecommendationSongById(id) {
 
 export async function downVoteRecommendationSongById(id) {
   const score = await songRepository.getScoreById(id);
-  if (!Math.abs(score)) {
+  if (!score) {
     return null;
   }
 
